@@ -9,9 +9,6 @@ export default function Home() {
   const cookie = cookies();
 
   const initialBackground = cookie.get("background")?.value;
-  const style: Record<string, string | undefined> = {
-    "--background-color": initialBackground,
-  };
 
   let initialAvatar: Record<string, number> | undefined;
 
@@ -21,7 +18,7 @@ export default function Home() {
 
   return (
     <AvatarStatesProvider initialStates={initialAvatar}>
-      <Container style={style}>
+      <Container>
         <ContentWrapper>
           <Header />
           <Avatar />

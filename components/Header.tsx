@@ -1,13 +1,19 @@
 "use client";
 
+import { useScreenshot } from "@/hooks";
 import { DownloadCloud } from "react-feather";
 import styled from "styled-components";
 
 function Header() {
+  const { downloadScreenshot } = useScreenshot("main-avatar", {
+    backgroundColor: null,
+    filename: "avatar.png",
+  });
+
   return (
     <Container>
       <h1>Avator</h1>
-      <Button>
+      <Button onClick={downloadScreenshot}>
         <DownloadCloud size={18} strokeWidth={3} /> Take snap
       </Button>
     </Container>

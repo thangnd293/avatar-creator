@@ -34,7 +34,7 @@ function Avatar() {
   useSyncStatesWithMachineInput(avatarStates, machineInputs);
 
   return (
-    <Wrapper>
+    <Wrapper id="main-avatar">
       <MainAvatar />
     </Wrapper>
   );
@@ -47,4 +47,5 @@ const Wrapper = styled.div`
   min-height: 272px;
   aspect-ratio: 1/1;
   margin: 0 auto;
+  background-color: var(--background-color);
 `;

@@ -5,6 +5,7 @@ import StyledComponentsRegistry from "@/lib/styledComponent";
 import { RIVE_FILE, RIVE_WASM_URL } from "@/constants/rive";
 
 import GlobalStyles from "@/components/GlobalStyles";
+import { cookies } from "next/headers";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,8 +19,13 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const initialBackground = cookies().get("background")?.value;
+
+  const style: Record<string, string | undefined> = {
+    "--background-color": initialBackground,
+  };
   return (
-    <html lang="en">
+    <html lang="en" style={style}>
       <head>
         <link
           rel="preload"
