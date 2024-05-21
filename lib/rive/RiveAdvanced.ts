@@ -5,7 +5,8 @@ import Rive, {
   type RiveCanvas,
   type StateMachineInstance,
 } from "@rive-app/canvas-advanced";
-import { RIVE_WASM_URL } from "../../constants/rive";
+
+import { RIVE_WASM_URL } from "@/constants/rive";
 import { CanvasDimensions, RenderRequest } from "@/types";
 
 export class RiveAdvanced {

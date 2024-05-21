@@ -1,18 +1,22 @@
 "use client";
 
 import { useState } from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
+import cookies from "js-cookie";
 
-import { useRiveAdvanced } from "@/hooks";
 import AvatarOptionButton from "@/components/AvatarOptionButton";
 import { useAvatarStates } from "@/components/AvatarStatesProvider";
 import ColorSelect from "@/components/ColorSelect";
 import ScrollArea from "@/components/ScrollArea";
 import { TABS, TAB_CONTENTS } from "@/constants/avatar";
 import { MACHINE_STATE, RIVE_FILE } from "@/constants/rive";
+import { useRiveAdvanced } from "@/hooks";
 import BackgroundColorPicker from "./BackgroundColorPicker";
 
-function AvatarEditor() {
+interface AvatarEditorProps {
+  initialBackground?: string;
+}
+function AvatarEditor({ initialBackground }: AvatarEditorProps) {
   const [currentTab, setCurrentTab] = useState(TABS[0].state);
 
   const { avatarStates, changeAvatarState } = useAvatarStates();
@@ -33,6 +37,10 @@ function AvatarEditor() {
 
     changeAvatarState(key, value);
     updateBaseState(newAvatarState);
+
+    cookies.set("avatarStates", JSON.stringify(newAvatarState), {
+      expires: 365,
+    });
   }
 
   return (
@@ -65,22 +73,27 @@ function AvatarEditor() {
       )}
 
       <BackgroundColorPickerWrapper>
-        <BackgroundColorPicker />
+        <BackgroundColorPicker initialColor={initialBackground} />
       </BackgroundColorPickerWrapper>
 
       {typeOptions && (
         <ScrollArea>
           <SectionWrapper>
-            {typeOptions.map(({ state, value, statesToOverride }) => (
-              <AvatarOptionButton
-                key={`${state}-${value}`}
-                canvasDimensions={canvasDimensions}
-                statesToOverride={statesToOverride}
-                currentStates={avatarStates}
-                renderFunction={requestRenderOnCanvas}
-                onClick={() => onChangeAvatarState(state, value)}
-              />
-            ))}
+            {typeOptions.map((typeInfo) => {
+              const { state, value } = typeInfo;
+
+              return (
+                <AvatarOptionButton
+                  key={`${state}-${value}`}
+                  canvasScale={canvasScale}
+                  canvasDimensions={canvasDimensions}
+                  buttonTypeInfo={typeInfo}
+                  currentStates={avatarStates}
+                  renderFunction={requestRenderOnCanvas}
+                  onClick={() => onChangeAvatarState(state, value)}
+                />
+              );
+            })}
           </SectionWrapper>
         </ScrollArea>
       )}
@@ -90,9 +103,11 @@ function AvatarEditor() {
 
 export default AvatarEditor;
 
+const canvasScale = 2;
+
 const canvasDimensions = {
-  width: 96,
-  height: 96,
+  width: 96 * canvasScale,
+  height: 96 * canvasScale,
 };
 
 const Container = styled.div`
@@ -150,7 +165,11 @@ const ButtonTab = styled.button<{ $active?: boolean }>`
 
   ${({ $active }) =>
     $active &&
-    `
-    color: var(--primary-color) !important;
-  `}
+    css`
+      color: var(--primary-color);
+
+      &:hover {
+        color: inherit;
+      }
+    `}
 `;

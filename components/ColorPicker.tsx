@@ -30,12 +30,15 @@ function ColorPicker(
 export default forwardRef<HTMLDivElement, ColorPickerProps>(ColorPicker);
 
 const Wrapper = styled.div`
-  width: fit-content;
+  width: 200px;
 
   border-radius: 16px;
   box-shadow: var(--box-shadow);
   padding-bottom: 16px;
   background-color: white;
+  overflow: hidden;
+
+  /* === Override React colorful === */
 
   & .react-colorful {
     width: 100%;

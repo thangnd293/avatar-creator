@@ -1,17 +1,22 @@
 "use client";
 
-import { useLayoutEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import cookies from "js-cookie";
 
 import ButtonColor from "./ButtonColor";
 import ColorPicker from "./ColorPicker";
 import { Popover, PopoverContentWrapper, PopoverTrigger } from "./Popover";
 
-function BackgroundColorPicker() {
-  const [color, setColor] = useState("#aabbcc");
+interface BackgroundColorPickerProps {
+  initialColor?: string;
+}
+function BackgroundColorPicker({ initialColor }: BackgroundColorPickerProps) {
+  const [color, setColor] = useState(initialColor ?? "#d793d7");
 
   // Sync the background color with the color picker
-  useLayoutEffect(() => {
+  useEffect(() => {
     document.documentElement.style.setProperty("--background-color", color);
+    cookies.set("background", color, { expires: 365 });
   }, [color]);
 
   return (

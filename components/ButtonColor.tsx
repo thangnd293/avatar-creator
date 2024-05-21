@@ -1,21 +1,24 @@
 import React, { forwardRef } from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 interface ButtonColorProps extends React.ComponentProps<"button"> {
   active?: boolean;
   color: string;
 }
 function ButtonColor(
-  { color, ...others }: ButtonColorProps,
+  { color, active, ...others }: ButtonColorProps,
   ref: React.Ref<HTMLButtonElement>
 ) {
-  return <Button ref={ref} $color={color} {...others} />;
+  const style: Record<string, string> = {
+    "--color": color,
+  };
+
+  return <Button ref={ref} style={style} $active={active} {...others} />;
 }
 
 export default forwardRef<HTMLButtonElement, ButtonColorProps>(ButtonColor);
 
 const Button = styled.button<{
-  $color: string;
   $active?: boolean;
 }>`
   display: flex;
@@ -29,8 +32,8 @@ const Button = styled.button<{
   border: 4px solid transparent;
   flex-shrink: 0;
   background-color: white;
-  box-shadow: var(--box-shadow);
   transition: border-color 0.2s;
+  box-shadow: var(--box-shadow);
 
   &:hover {
     border-color: var(--secondary-color);
@@ -41,13 +44,17 @@ const Button = styled.button<{
     display: block;
     width: 60%;
     height: 60%;
-    background-color: ${({ $color }) => $color};
+    background-color: var(--color);
     border-radius: 8px;
   }
 
   ${({ $active }) =>
     $active &&
-    `
-        border-color: var(--primary-color) !important;
-      `}
+    css`
+      border-color: var(--primary-color);
+
+      &:hover {
+        border-color: inherit;
+      }
+    `}
 `;

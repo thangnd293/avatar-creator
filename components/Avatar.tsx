@@ -23,7 +23,7 @@ const layout = new Layout({
 function Avatar() {
   const { avatarStates } = useAvatarStates();
 
-  const { rive, RiveComponent } = useRive({
+  const { rive, RiveComponent: MainAvatar } = useRive({
     src: RIVE_FILE,
     stateMachines: MACHINE_STATE.Avatar,
     layout,
@@ -35,7 +35,7 @@ function Avatar() {
 
   return (
     <Wrapper>
-      <RiveComponent />
+      <MainAvatar />
     </Wrapper>
   );
 }
@@ -43,7 +43,6 @@ function Avatar() {
 export default Avatar;
 
 const Wrapper = styled.div`
-  width: fit-content;
   height: calc(100% - 64px - 204px);
   min-height: 272px;
   aspect-ratio: 1/1;

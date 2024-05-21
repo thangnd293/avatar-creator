@@ -29,7 +29,6 @@ const GlobalStyles = styled.createGlobalStyle`
     --secondary-color: #b264f4;
     --text-color: #a3a3a3;
     --box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-    --background-color: red;
   }
 
   /* === Reset CSS === */

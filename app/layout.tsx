@@ -2,7 +2,7 @@ import { Inter } from "next/font/google";
 import type { Metadata } from "next";
 
 import StyledComponentsRegistry from "@/lib/styledComponent";
-import { RIVE_WASM_URL } from "@/constants/rive";
+import { RIVE_FILE, RIVE_WASM_URL } from "@/constants/rive";
 
 import GlobalStyles from "@/components/GlobalStyles";
 
@@ -24,6 +24,12 @@ export default function RootLayout({
         <link
           rel="preload"
           href={RIVE_WASM_URL}
+          as="fetch"
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="preload"
+          href={RIVE_FILE}
           as="fetch"
           crossOrigin="anonymous"
         />

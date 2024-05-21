@@ -1,5 +1,5 @@
 export const RIVE_WASM_URL =
-  "https://unpkg.com/@rive-app/canvas-advanced@2.15.6/rive.wasm";
+  "https://unpkg.com/@rive-app/canvas-advanced-lite@2.15.6/rive.wasm";
 
 export const RIVE_FILE = "/avatar.riv";
 

@@ -26,6 +26,7 @@ export function useRiveAdvanced(args: RiveAdvancedArgs) {
   const updateBaseState = useCallback((newStates: Record<string, number>) => {
     if (instance.current) {
       instance.current.updateBaseState(newStates);
+      return;
     }
 
     console.error("RiveAdvanced instance is not initialized");
