@@ -36,7 +36,7 @@ const Button = styled.button<{
   box-shadow: var(--box-shadow);
 
   &:hover {
-    border-color: var(--secondary-color);
+    border-color: var(--color-secondary);
   }
 
   &::before {
@@ -51,10 +51,10 @@ const Button = styled.button<{
   ${({ $active }) =>
     $active &&
     css`
-      border-color: var(--primary-color);
+      border-color: var(--color-primary);
 
       &:hover {
-        border-color: inherit;
+        border-color: var(--color-primary);
       }
     `}
 `;

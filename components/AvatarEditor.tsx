@@ -12,6 +12,7 @@ import { TABS, TAB_CONTENTS } from "@/constants/avatar";
 import { MACHINE_STATE, RIVE_FILE } from "@/constants/rive";
 import { useRiveAdvanced } from "@/hooks";
 import BackgroundColorPicker from "./BackgroundColorPicker";
+import { QUERIES } from "@/constants/styles";
 
 interface AvatarEditorProps {
   initialBackground?: string;
@@ -45,8 +46,8 @@ function AvatarEditor({ initialBackground }: AvatarEditorProps) {
 
   return (
     <Container>
-      <ScrollArea>
-        <SectionWrapper>
+      <TabScrollArea>
+        <TabsWrapper>
           {TABS.map(({ name, state }) => (
             <ButtonTab
               key={state}
@@ -56,17 +57,17 @@ function AvatarEditor({ initialBackground }: AvatarEditorProps) {
               {name}
             </ButtonTab>
           ))}
-        </SectionWrapper>
-      </ScrollArea>
+        </TabsWrapper>
+      </TabScrollArea>
 
       {colorOptions && (
         <ColorSettingWrapper>
-          {colorOptions.map((colors) => (
+          {colorOptions.map((options) => (
             <ColorSelect
-              key={colors[0].state}
-              value={avatarStates[colors[0].state]}
-              onChange={onChangeAvatarState.bind(null, colors[0].state)}
-              options={colors}
+              key={options[0].state}
+              value={avatarStates[options[0].state]}
+              onChange={onChangeAvatarState.bind(null, options[0].state)}
+              options={options}
             />
           ))}
         </ColorSettingWrapper>
@@ -78,7 +79,7 @@ function AvatarEditor({ initialBackground }: AvatarEditorProps) {
 
       {typeOptions && (
         <ScrollArea>
-          <SectionWrapper>
+          <OptionsWrapper>
             {typeOptions.map((typeInfo) => {
               const { state, value } = typeInfo;
 
@@ -94,7 +95,7 @@ function AvatarEditor({ initialBackground }: AvatarEditorProps) {
                 />
               );
             })}
-          </SectionWrapper>
+          </OptionsWrapper>
         </ScrollArea>
       )}
     </Container>
@@ -113,20 +114,38 @@ const canvasDimensions = {
 const Container = styled.div`
   display: flex;
   width: 100%;
-  height: 204px;
+  height: 220px;
   flex-direction: column;
-  justify-content: center;
-  padding: 0 28px;
+  padding: 0 28px 8px;
   background-color: white;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
   border-radius: 16px;
   position: relative;
+
+  @media ${QUERIES.tabletAndSmaller} {
+    height: 40%;
+  }
 `;
 
-const SectionWrapper = styled.div`
+const TabScrollArea = styled(ScrollArea)`
+  flex-shrink: 0;
+`;
+
+const TabsWrapper = styled.div`
   display: flex;
   gap: 16px;
-  padding: 16px 0;
+  margin: 16px 0 12px 0;
+`;
+
+const OptionsWrapper = styled.div`
+  display: flex;
+  gap: 16px;
+  padding-bottom: 16px;
+
+  @media ${QUERIES.tabletAndSmaller} {
+    gap: 8px;
+    flex-wrap: wrap;
+  }
 `;
 
 const ColorSettingWrapper = styled.div`
@@ -147,16 +166,18 @@ const BackgroundColorPickerWrapper = styled.div`
 `;
 
 const ButtonTab = styled.button<{ $active?: boolean }>`
+  padding-top: 16px;
+  padding-bottom: 16px;
   border: none;
   cursor: pointer;
   background-color: transparent;
-  color: #bbb;
-  font-weight: 600;
-  font-size: 0.9rem;
+  color: var(--color-gray-600);
   transition: color 0.2s;
+  font-weight: var(--weight-bold);
+  white-space: nowrap;
 
   &:hover {
-    color: #999;
+    color: var(--color-gray-900);
   }
 
   & ~ & {
@@ -166,10 +187,11 @@ const ButtonTab = styled.button<{ $active?: boolean }>`
   ${({ $active }) =>
     $active &&
     css`
-      color: var(--primary-color);
+      color: var(--color-primary);
+      font-weight: var(--weight-bold);
 
       &:hover {
-        color: inherit;
+        color: var(--color-primary);
       }
     `}
 `;

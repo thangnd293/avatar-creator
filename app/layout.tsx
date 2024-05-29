@@ -5,9 +5,9 @@ import StyledComponentsRegistry from "@/lib/styledComponent";
 import { RIVE_FILE, RIVE_WASM_URL } from "@/constants/rive";
 
 import GlobalStyles from "@/components/GlobalStyles";
-import { cookies } from "next/headers";
+import { getInitialBackground } from "@/helpers";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ subsets: ["latin"], weight: ["400", "500", "700"] });
 
 export const metadata: Metadata = {
   title: "Avatar creator",
@@ -19,13 +19,15 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const initialBackground = cookies().get("background")?.value;
+  const initialBackground = getInitialBackground();
 
-  const style: Record<string, string | undefined> = {
-    "--background-color": initialBackground,
-  };
   return (
-    <html lang="en" style={style}>
+    <html
+      lang="en"
+      style={{
+        "--background-color": initialBackground,
+      }}
+    >
       <head>
         <link
           rel="preload"

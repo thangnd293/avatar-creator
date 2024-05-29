@@ -1,13 +1,15 @@
 "use client";
 
 import { Fragment, useState } from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { X } from "react-feather";
 
 import { ButtonColorInfo } from "@/types";
 import Tooltip from "./Tooltip";
 import ButtonColor from "./ButtonColor";
 import VisuallyHidden from "./VisuallyHidden";
+import ScrollArea from "./ScrollArea";
+import { QUERIES } from "@/constants/styles";
 
 interface ColorSelectProps {
   className?: string;
@@ -26,7 +28,7 @@ function ColorSelect({
   const currentColor = options.find((color) => color.value === value);
 
   return (
-    <Wrapper className={className}>
+    <Wrapper className={className} $isExpanded={isExpanded}>
       {isExpanded && (
         <Fragment>
           <CollapseButton onClick={() => setIsExpanded(false)}>
@@ -34,14 +36,18 @@ function ColorSelect({
             <VisuallyHidden>Close color select</VisuallyHidden>
           </CollapseButton>
 
-          {options.map((option) => (
-            <ButtonColor
-              key={option.value}
-              color={option.color}
-              active={option.value === value}
-              onClick={() => onChange(option.value)}
-            />
-          ))}
+          <LimitWidthScrollArea>
+            <ColorsWrapper>
+              {options.map((option) => (
+                <ButtonColor
+                  key={option.value}
+                  color={option.color}
+                  active={option.value === value}
+                  onClick={() => onChange(option.value)}
+                />
+              ))}
+            </ColorsWrapper>
+          </LimitWidthScrollArea>
         </Fragment>
       )}
 
@@ -59,9 +65,14 @@ function ColorSelect({
 
 export default ColorSelect;
 
-const Wrapper = styled.div`
+const Wrapper = styled.div<{ $isExpanded: boolean }>`
   display: flex;
   gap: 16px;
+  ${(p) =>
+    p.$isExpanded &&
+    css`
+      margin-bottom: -16px;
+    `}
 `;
 
 const CollapseButton = styled.button`
@@ -73,12 +84,30 @@ const CollapseButton = styled.button`
   border-radius: 16px;
   border: none;
   cursor: pointer;
-  color: var(--text-color);
-  background-color: white;
+  color: var(--color-gray-900);
+  background-color: var(--color-white);
   box-shadow: var(--box-shadow);
 
   &:hover {
-    background-color: var(--primary-color);
-    color: white;
+    background-color: var(--color-primary);
+    color: var(--color-white);
+  }
+`;
+
+const ColorsWrapper = styled.div`
+  display: flex;
+  gap: 16px;
+  padding-bottom: 16px;
+`;
+
+const LimitWidthScrollArea = styled(ScrollArea)`
+  max-width: 75vw;
+
+  @media ${QUERIES.tabletAndSmaller} {
+    max-width: 60vw;
+  }
+
+  @media ${QUERIES.phoneAndSmaller} {
+    max-width: 40vw;
   }
 `;

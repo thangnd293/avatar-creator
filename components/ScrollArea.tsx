@@ -38,7 +38,6 @@ export default forwardRef<HTMLDivElement, ScrollAreaProps>(ScrollArea);
 const ScrollAreaRoot = styled(RadixScrollArea.Root)`
   border-radius: 4px;
   overflow: hidden;
-  background-color: white;
   --scrollbar-size: 10px;
 `;
 

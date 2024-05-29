@@ -1,5 +1,6 @@
 import { range } from "@/utils";
 import { type ButtonColorInfo, type ButtonTypeInfo } from "@/types";
+import { COLORS } from "./styles";
 
 const SKIN_TONES = [
   "#FFE2D6",
@@ -349,6 +350,8 @@ export const DEFAULT_AVATAR: Record<string, number> = {
   SkinTone: 4,
   Wrinkles: 0,
 };
+
+export const DEFAULT_BACKGROUND_COLOR = COLORS.white;
 
 export const TABS = [
   {

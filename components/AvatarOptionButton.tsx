@@ -68,16 +68,16 @@ const Button = styled.button<{ $active?: boolean }>`
   border: 4px solid transparent;
 
   &:hover {
-    border-color: var(--secondary-color);
+    border-color: var(--color-secondary);
   }
 
   ${({ $active }) =>
     $active &&
     css`
-      border-color: var(--primary-color);
+      border-color: var(--color-primary);
 
       &:hover {
-        border-color: var(--primary-color);
+        border-color: var(--color-primary);
       }
     `}
 `;

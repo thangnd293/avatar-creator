@@ -10,7 +10,12 @@ import {
 } from "@rive-app/react-canvas";
 import styled from "styled-components";
 
-import { useStateMachineInputs, useSyncStatesWithMachineInput } from "@/hooks";
+import {
+  useResizeObserver,
+  useStateMachineInputs,
+  useSyncStatesWithMachineInput,
+} from "@/hooks";
+import { useRef } from "react";
 import { useAvatarStates } from "./AvatarStatesProvider";
 
 RuntimeLoader.setWasmUrl(RIVE_WASM_URL);
@@ -22,6 +27,11 @@ const layout = new Layout({
 
 function Avatar() {
   const { avatarStates } = useAvatarStates();
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const { width, height } = useResizeObserver({
+    ref: containerRef,
+  });
 
   const { rive, RiveComponent: MainAvatar } = useRive({
     src: RIVE_FILE,
@@ -34,18 +44,33 @@ function Avatar() {
   useSyncStatesWithMachineInput(avatarStates, machineInputs);
 
   return (
-    <Wrapper id="main-avatar">
-      <MainAvatar />
-    </Wrapper>
+    <Container ref={containerRef}>
+      <AvatarWrapper
+        id="main-avatar"
+        style={{
+          "--dimension": Math.min(width, height) + "px",
+        }}
+      >
+        <MainAvatar />
+      </AvatarWrapper>
+    </Container>
   );
 }
 
 export default Avatar;
 
-const Wrapper = styled.div`
-  height: calc(100% - 64px - 204px);
-  min-height: 272px;
-  aspect-ratio: 1/1;
+const Container = styled.div`
+  flex: 1;
+  display: flex;
+  align-items: end;
+
+  /* To fix wrapper element not shrink when height decrease */
+  overflow: hidden;
+`;
+
+const AvatarWrapper = styled.div`
+  width: var(--dimension);
+  height: var(--dimension);
   margin: 0 auto;
   background-color: var(--background-color);
 `;

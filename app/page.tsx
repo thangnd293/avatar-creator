@@ -1,20 +1,13 @@
 import Avatar from "@/components/Avatar";
 import AvatarEditor from "@/components/AvatarEditor";
-import Header from "@/components/Header";
-import { Container, ContentWrapper } from "./page.styled";
 import AvatarStatesProvider from "@/components/AvatarStatesProvider";
-import { cookies } from "next/headers";
+import Header from "@/components/Header";
+import { getInitialAvatar, getInitialBackground } from "@/helpers";
+import { Container, ContentWrapper } from "./page.styled";
 
 export default function Home() {
-  const cookie = cookies();
-
-  const initialBackground = cookie.get("background")?.value;
-
-  let initialAvatar: Record<string, number> | undefined;
-
-  if (typeof cookie.get("avatarStates")?.value === "string") {
-    initialAvatar = JSON.parse(cookie.get("avatarStates")!.value);
-  }
+  const initialBackground = getInitialBackground();
+  const initialAvatar = getInitialAvatar();
 
   return (
     <AvatarStatesProvider initialStates={initialAvatar}>

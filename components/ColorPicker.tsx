@@ -30,13 +30,16 @@ function ColorPicker(
 export default forwardRef<HTMLDivElement, ColorPickerProps>(ColorPicker);
 
 const Wrapper = styled.div`
-  width: 200px;
+  &&& {
+    width: 200px;
 
-  border-radius: 16px;
-  box-shadow: var(--box-shadow);
-  padding-bottom: 16px;
-  background-color: white;
-  overflow: hidden;
+    border-radius: 16px;
+    box-shadow: var(--box-shadow);
+    padding-bottom: 16px;
+    background-color: white;
+    /* I want react colorful fit inside wrapper */
+    overflow: hidden;
+  }
 
   /* === Override React colorful === */
 
@@ -82,12 +85,12 @@ const InputWrapper = styled.div`
     width: 100%;
     padding: 8px;
     border-radius: 6px;
-    border: 1px solid var(--secondary-color);
+    border: 1px solid var(--color-secondary);
     height: 24px;
 
     &:focus {
       outline: none;
-      border-color: var(--primary-color);
+      border-color: var(--color-primary);
     }
   }
 `;
