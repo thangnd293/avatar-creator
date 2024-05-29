@@ -83,10 +83,10 @@ const InputWrapper = styled.div`
 
   & input {
     width: 100%;
+    height: 24px;
     padding: 8px;
     border-radius: 6px;
     border: 1px solid var(--color-secondary);
-    height: 24px;
 
     &:focus {
       outline: none;

@@ -28,7 +28,12 @@ function ColorSelect({
   const currentColor = options.find((color) => color.value === value);
 
   return (
-    <Wrapper className={className} $isExpanded={isExpanded}>
+    <Wrapper
+      className={className}
+      style={{
+        "--spacing": isExpanded ? "-16px" : undefined,
+      }}
+    >
       {isExpanded && (
         <Fragment>
           <CollapseButton onClick={() => setIsExpanded(false)}>
@@ -65,22 +70,18 @@ function ColorSelect({
 
 export default ColorSelect;
 
-const Wrapper = styled.div<{ $isExpanded: boolean }>`
+const Wrapper = styled.div`
   display: flex;
   gap: 16px;
-  ${(p) =>
-    p.$isExpanded &&
-    css`
-      margin-bottom: -16px;
-    `}
+  margin-bottom: var(--spacing);
 `;
 
 const CollapseButton = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 56px;
-  height: 56px;
+  width: var(--button-color-size);
+  height: var(--button-color-size);
   border-radius: 16px;
   border: none;
   cursor: pointer;

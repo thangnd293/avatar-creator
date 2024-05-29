@@ -9,11 +9,16 @@ function ButtonColor(
   { color, active, ...others }: ButtonColorProps,
   ref: React.Ref<HTMLButtonElement>
 ) {
-  const style: Record<string, string> = {
-    "--color": color,
-  };
-
-  return <Button ref={ref} style={style} $active={active} {...others} />;
+  return (
+    <Button
+      ref={ref}
+      style={{
+        "--color": color,
+      }}
+      $active={active}
+      {...others}
+    />
+  );
 }
 
 export default forwardRef<HTMLButtonElement, ButtonColorProps>(ButtonColor);
@@ -24,14 +29,14 @@ const Button = styled.button<{
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 56px;
-  height: 56px;
+  width: var(--button-color-size);
+  height: var(--button-color-size);
   border-radius: 16px;
   border: none;
   cursor: pointer;
   border: 4px solid transparent;
   flex-shrink: 0;
-  background-color: white;
+  background-color: var(--color-white);
   transition: border-color 0.2s;
   box-shadow: var(--box-shadow);
 
@@ -42,8 +47,8 @@ const Button = styled.button<{
   &::before {
     content: "";
     display: block;
-    width: 60%;
-    height: 60%;
+    width: 70%;
+    height: 70%;
     background-color: var(--color);
     border-radius: 8px;
   }

@@ -12,7 +12,7 @@ function Header() {
 
   return (
     <Wrapper>
-      <h1>Avator</h1>
+      <Logo>Avator</Logo>
       <Button onClick={downloadScreenshot}>
         <DownloadCloud size={18} strokeWidth={3} /> Take snap
       </Button>
@@ -28,6 +28,12 @@ const Wrapper = styled.header`
   align-items: center;
   height: 2.75rem;
   flex-shrink: 0;
+`;
+
+const Logo = styled.h1`
+  font-size: 1.5rem;
+  font-weight: var(--weight-bold);
+  color: var(--color-primary);
 `;
 
 const Button = styled.button`

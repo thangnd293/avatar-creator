@@ -40,6 +40,8 @@ const GlobalStyles = styled.createGlobalStyle`
     --weight-normal: ${WEIGHTS.normal};
     --weight-medium: ${WEIGHTS.medium};
     --weight-bold: ${WEIGHTS.bold};
+
+    --button-color-size: 56px;
   }
 `;
 

@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import styled, { css } from "styled-components";
-import cookies from "js-cookie";
 
 import AvatarOptionButton from "@/components/AvatarOptionButton";
 import { useAvatarStates } from "@/components/AvatarStatesProvider";
@@ -13,6 +12,7 @@ import { MACHINE_STATE, RIVE_FILE } from "@/constants/rive";
 import { useRiveAdvanced } from "@/hooks";
 import BackgroundColorPicker from "./BackgroundColorPicker";
 import { QUERIES } from "@/constants/styles";
+import ColorSelectMobile from "./ColorSelectMobile";
 
 interface AvatarEditorProps {
   initialBackground?: string;
@@ -31,17 +31,13 @@ function AvatarEditor({ initialBackground }: AvatarEditorProps) {
 
   const tabContent = TAB_CONTENTS[currentTab];
   const colorOptions = tabContent.colors;
-  const typeOptions = tabContent.types;
+  const type = tabContent.types;
 
   function onChangeAvatarState(key: string, value: number) {
     const newAvatarState = { ...avatarStates, [key]: value };
 
     changeAvatarState(key, value);
     updateBaseState(newAvatarState);
-
-    cookies.set("avatarStates", JSON.stringify(newAvatarState), {
-      expires: 365,
-    });
   }
 
   return (
@@ -62,7 +58,7 @@ function AvatarEditor({ initialBackground }: AvatarEditorProps) {
 
       {colorOptions && (
         <ColorSettingWrapper>
-          {colorOptions.map((options) => (
+          {colorOptions.map(({ options }) => (
             <ColorSelect
               key={options[0].state}
               value={avatarStates[options[0].state]}
@@ -77,27 +73,40 @@ function AvatarEditor({ initialBackground }: AvatarEditorProps) {
         <BackgroundColorPicker initialColor={initialBackground} />
       </BackgroundColorPickerWrapper>
 
-      {typeOptions && (
-        <ScrollArea>
-          <OptionsWrapper>
-            {typeOptions.map((typeInfo) => {
-              const { state, value } = typeInfo;
+      <ScrollArea>
+        <ContentWrapper>
+          {colorOptions?.map(({ title, options }) => (
+            <ColorSelectMobile
+              key={options[0].state}
+              title={title}
+              value={avatarStates[options[0].state]}
+              onChange={onChangeAvatarState.bind(null, options[0].state)}
+              options={options}
+            />
+          ))}
 
-              return (
-                <AvatarOptionButton
-                  key={`${state}-${value}`}
-                  canvasScale={canvasScale}
-                  canvasDimensions={canvasDimensions}
-                  buttonTypeInfo={typeInfo}
-                  currentStates={avatarStates}
-                  renderFunction={requestRenderOnCanvas}
-                  onClick={() => onChangeAvatarState(state, value)}
-                />
-              );
-            })}
-          </OptionsWrapper>
-        </ScrollArea>
-      )}
+          <div>
+            <TypeTitle>{type.title}</TypeTitle>
+            <OptionsWrapper>
+              {type.options.map((typeInfo) => {
+                const { state, value } = typeInfo;
+
+                return (
+                  <AvatarOptionButton
+                    key={`${state}-${value}`}
+                    canvasScale={canvasScale}
+                    canvasDimensions={canvasDimensions}
+                    buttonTypeInfo={typeInfo}
+                    currentStates={avatarStates}
+                    renderFunction={requestRenderOnCanvas}
+                    onClick={() => onChangeAvatarState(state, value)}
+                  />
+                );
+              })}
+            </OptionsWrapper>
+          </div>
+        </ContentWrapper>
+      </ScrollArea>
     </Container>
   );
 }
@@ -113,7 +122,6 @@ const canvasDimensions = {
 
 const Container = styled.div`
   display: flex;
-  width: 100%;
   height: 220px;
   flex-direction: column;
   padding: 0 28px 8px;
@@ -124,6 +132,20 @@ const Container = styled.div`
 
   @media ${QUERIES.tabletAndSmaller} {
     height: 40%;
+    margin-left: -24px;
+    margin-right: -24px;
+    margin-bottom: -24px;
+    border-radius: 0px;
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+
+  @media ${QUERIES.phoneAndSmaller} {
+    margin-left: -16px;
+    margin-right: -16px;
+    margin-bottom: -16px;
+    padding-left: 16px;
+    padding-right: 16px;
   }
 `;
 
@@ -137,14 +159,45 @@ const TabsWrapper = styled.div`
   margin: 16px 0 12px 0;
 `;
 
+const ContentWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  padding: 16px 0;
+`;
+
 const OptionsWrapper = styled.div`
   display: flex;
   gap: 16px;
-  padding-bottom: 16px;
 
   @media ${QUERIES.tabletAndSmaller} {
-    gap: 8px;
-    flex-wrap: wrap;
+    display: grid;
+    grid-gap: 8px;
+    grid-template-columns: repeat(5, minmax(132px, 1fr));
+    justify-items: center;
+  }
+
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(4, minmax(132px, 1fr));
+  }
+
+  @media (max-width: 640px) {
+    grid-template-columns: repeat(3, minmax(132px, 1fr));
+  }
+
+  @media ${QUERIES.phoneAndSmaller} {
+    grid-template-columns: repeat(2, minmax(132px, 1fr));
+  }
+`;
+
+const TypeTitle = styled.h3`
+  display: none;
+  color: var(--color-gray-700);
+  font-weight: var(--weight-bold);
+  margin-bottom: 16px;
+
+  @media ${QUERIES.tabletAndSmaller} {
+    display: revert;
   }
 `;
 
@@ -156,6 +209,10 @@ const ColorSettingWrapper = styled.div`
   bottom: 100%;
   left: 0;
   margin-bottom: 16px;
+
+  @media ${QUERIES.tabletAndSmaller} {
+    display: none;
+  }
 `;
 
 const BackgroundColorPickerWrapper = styled.div`
@@ -163,6 +220,14 @@ const BackgroundColorPickerWrapper = styled.div`
   bottom: 100%;
   right: 0;
   margin-bottom: 16px;
+
+  @media ${QUERIES.tabletAndSmaller} {
+    right: 24px;
+  }
+
+  @media ${QUERIES.phoneAndSmaller} {
+    right: 16px;
+  }
 `;
 
 const ButtonTab = styled.button<{ $active?: boolean }>`
@@ -188,7 +253,6 @@ const ButtonTab = styled.button<{ $active?: boolean }>`
     $active &&
     css`
       color: var(--color-primary);
-      font-weight: var(--weight-bold);
 
       &:hover {
         color: var(--color-primary);

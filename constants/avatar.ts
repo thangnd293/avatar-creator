@@ -178,7 +178,7 @@ const PIERCING_TYPES = Array.from({ length: 3 }).map((_, i) => ({
   value: i,
 }));
 
-const NODE_PIERCING_TYPES = Array.from({ length: 4 }).map((_, i) => ({
+const NOSE_PIERCING_TYPES = Array.from({ length: 4 }).map((_, i) => ({
   state: "Nose Piercing",
   statesToOverride: {
     BackgroundColor: 0,
@@ -395,41 +395,108 @@ export const TABS = [
 export const TAB_CONTENTS: Record<
   string,
   {
-    colors?: ButtonColorInfo[][];
-    types?: ButtonTypeInfo[];
+    colors?: {
+      title: string;
+      options: ButtonColorInfo[];
+    }[];
+    types: {
+      title: string;
+      options: ButtonTypeInfo[];
+    };
   }
 > = {
   Body: {
-    colors: [SKIN_TONES, CLOTHING_COLORS],
-    types: BODY_TYPES,
+    colors: [
+      {
+        title: "Skin tone",
+        options: SKIN_TONES,
+      },
+      {
+        title: "Clothing color",
+        options: CLOTHING_COLORS,
+      },
+    ],
+    types: {
+      title: "Body type",
+      options: BODY_TYPES,
+    },
   },
   Expression: {
-    colors: [EYE_COLORS],
-    types: EXPRESSION_TYPES,
+    colors: [
+      {
+        title: "Eye color",
+        options: EYE_COLORS,
+      },
+    ],
+    types: {
+      title: "Expression",
+      options: EXPRESSION_TYPES,
+    },
   },
   MainHair: {
-    colors: [HAIR_COLORS],
-    types: HAIR_TYPES,
+    colors: [
+      {
+        title: "Hair color",
+        options: HAIR_COLORS,
+      },
+    ],
+    types: {
+      title: "Hair style",
+      options: HAIR_TYPES,
+    },
   },
   Glasses: {
-    colors: [GLASS_COLORS],
-    types: GLASS_TYPES,
+    colors: [
+      {
+        title: "Glasses color",
+        options: GLASS_COLORS,
+      },
+    ],
+    types: {
+      title: "Glasses style",
+      options: GLASS_TYPES,
+    },
   },
   Wrinkles: {
-    types: WRINKLE_TYPES,
+    types: {
+      title: "Wrinkles",
+      options: WRINKLE_TYPES,
+    },
   },
   Piercings: {
-    types: PIERCING_TYPES,
+    types: {
+      title: "Piercings",
+      options: PIERCING_TYPES,
+    },
   },
   "Nose Piercings": {
-    types: NODE_PIERCING_TYPES,
+    types: {
+      title: "Nose Piercings",
+      options: NOSE_PIERCING_TYPES,
+    },
   },
   FacialHair: {
-    colors: [FACIAL_HAIR_COLORS],
-    types: FACIAL_HAIR_TYPES,
+    colors: [
+      {
+        title: "Facial hair color",
+        options: FACIAL_HAIR_COLORS,
+      },
+    ],
+    types: {
+      title: "Facial hair style",
+      options: FACIAL_HAIR_TYPES,
+    },
   },
   Headwear: {
-    colors: [HEADWEAR_COLORS],
-    types: HEADWEAR_TYPES,
+    colors: [
+      {
+        title: "Headwear color",
+        options: HEADWEAR_COLORS,
+      },
+    ],
+    types: {
+      title: "Headwear style",
+      options: HEADWEAR_TYPES,
+    },
   },
 };

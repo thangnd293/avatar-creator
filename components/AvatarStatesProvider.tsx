@@ -1,6 +1,7 @@
 "use client";
 
 import React, { createContext, useCallback, useContext, useMemo } from "react";
+import cookies from "js-cookie";
 
 import { DEFAULT_AVATAR } from "@/constants/avatar";
 
@@ -35,10 +36,13 @@ export default function AvatarStatesProvider({
     setCurrentStates((prevStates) => {
       if (prevStates[key] === value) return prevStates;
 
-      return {
-        ...prevStates,
-        [key]: value,
-      };
+      const newAvatarState = { ...prevStates, [key]: value };
+      // Sync avatar state with cookies
+      cookies.set("avatarStates", JSON.stringify(newAvatarState), {
+        expires: 365,
+      });
+
+      return newAvatarState;
     });
   }, []);
 
