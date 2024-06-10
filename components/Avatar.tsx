@@ -7,7 +7,7 @@ import {
   Layout,
   RuntimeLoader,
   useRive,
-} from "@rive-app/react-canvas";
+} from "@rive-app/react-canvas-lite";
 import styled from "styled-components";
 
 import {
@@ -63,7 +63,7 @@ const Container = styled.div`
   flex: 1;
   display: flex;
   align-items: end;
-
+  justify-content: center;
   /* To fix wrapper element not shrink when height decrease */
   overflow: hidden;
 `;
@@ -71,6 +71,5 @@ const Container = styled.div`
 const AvatarWrapper = styled.div`
   width: var(--dimension);
   height: var(--dimension);
-  margin: 0 auto;
   background-color: var(--background-color);
 `;

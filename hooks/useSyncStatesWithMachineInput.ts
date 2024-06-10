@@ -1,4 +1,4 @@
-import { StateMachineInput } from "@rive-app/react-canvas";
+import { StateMachineInput } from "@rive-app/react-canvas-lite";
 import { useEffect } from "react";
 
 export function useSyncStatesWithMachineInput(

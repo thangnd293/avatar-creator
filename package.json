@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev --port 3001",
     "build": "next build",
-    "start": "next start",
+    "start": "next start --port 3001",
     "lint": "next lint"
   },
   "dependencies": {
@@ -14,8 +14,8 @@
     "@radix-ui/react-tooltip": "^1.0.7",
     "@radix-ui/react-visually-hidden": "^1.0.3",
     "@rive-app/canvas-advanced": "^2.15.6",
-    "@rive-app/react-canvas": "^4.9.5",
-    "html2canvas": "^1.4.1",
+    "@rive-app/react-canvas-lite": "^4.11.3",
+    "html-to-image": "^1.11.11",
     "js-cookie": "^3.0.5",
     "next": "14.2.3",
     "react": "^18",
