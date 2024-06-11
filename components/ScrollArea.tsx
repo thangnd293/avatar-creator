@@ -4,6 +4,8 @@ import * as RadixScrollArea from "@radix-ui/react-scroll-area";
 import React, { forwardRef } from "react";
 import styled from "styled-components";
 
+import { QUERIES } from "@/constants/styles";
+
 interface ScrollAreaProps
   extends React.ComponentPropsWithoutRef<typeof ScrollAreaRoot> {
   children?: React.ReactNode;
@@ -87,6 +89,10 @@ const ScrollAreaThumb = styled(RadixScrollArea.Thumb)`
     height: 100%;
     min-width: 44px;
     min-height: 44px;
+  }
+
+  @media ${QUERIES.tabletAndSmaller} {
+    display: none;
   }
 `;
 

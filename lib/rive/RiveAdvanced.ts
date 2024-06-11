@@ -1,4 +1,4 @@
-import Rive, {
+import {
   type Artboard,
   type File,
   type Renderer,
@@ -6,8 +6,8 @@ import Rive, {
   type StateMachineInstance,
 } from "@rive-app/canvas-advanced";
 
-import { RIVE_WASM_URL } from "@/constants/rive";
 import { CanvasDimensions, RenderRequest } from "@/types";
+import { RuntimeLoader } from "@rive-app/react-canvas-lite";
 
 export class RiveAdvanced {
   private cleanedUp: boolean;
@@ -141,9 +141,7 @@ export class RiveAdvanced {
 
     // Initialize rive, file, artboard, renderer, and machine instance
     this.initialize = async () => {
-      this.riveInstance = await Rive({
-        locateFile: () => RIVE_WASM_URL,
-      });
+      this.riveInstance = await RuntimeLoader.awaitInstance();
 
       if (this.cleanedUp) {
         this.riveInstance.cleanup();
