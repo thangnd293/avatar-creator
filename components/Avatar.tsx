@@ -46,7 +46,6 @@ function Avatar() {
   return (
     <Container ref={containerRef}>
       <AvatarWrapper
-        id="main-avatar"
         style={{
           "--dimension": Math.min(width, height) + "px",
         }}
@@ -61,6 +60,7 @@ export default Avatar;
 
 const Container = styled.div`
   flex: 1;
+  min-height: 220px;
   display: flex;
   align-items: end;
   justify-content: center;

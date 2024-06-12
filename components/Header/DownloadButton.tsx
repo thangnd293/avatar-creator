@@ -1,26 +1,57 @@
 "use client";
 
-import { useScreenshot } from "@/hooks";
 import { DownloadCloud } from "react-feather";
 import styled from "styled-components";
 
+import { useAvatarStates } from "@/components/AvatarStatesProvider";
+import { MACHINE_STATE, RIVE_FILE } from "@/constants/rive";
+import { RiveAdvanced } from "@/lib/rive";
+
+const IMAGE_SIZE = 512;
+
 function DownloadButton() {
-  const { downloadScreenshot } = useScreenshot("main-avatar", {
-    filename: "avator.png",
-    canvasWidth: 512,
-    canvasHeight: 512,
-  });
+  const { avatarStates } = useAvatarStates();
+
+  const handleDownload = () => {
+    const { requestRenderOnCanvas, cleanUp } = new RiveAdvanced(
+      {
+        width: IMAGE_SIZE,
+        height: IMAGE_SIZE,
+      },
+      avatarStates,
+      RIVE_FILE,
+      MACHINE_STATE.Avatar
+    );
+
+    const canvas = document.createElement("canvas");
+    canvas.width = IMAGE_SIZE;
+    canvas.height = IMAGE_SIZE;
+
+    requestRenderOnCanvas({
+      canvas,
+      statesToOverride: avatarStates,
+      callback: () => {
+        const dataUrl = canvas.toDataURL("image/png");
+        const link = document.createElement("a");
+        link.download = "avatar.png";
+        link.href = dataUrl;
+        link.click();
+
+        cleanUp();
+      },
+    });
+  };
 
   return (
-    <Button onClick={downloadScreenshot}>
+    <Wrapper onClick={handleDownload}>
       <DownloadCloud size={18} strokeWidth={3} /> Download
-    </Button>
+    </Wrapper>
   );
 }
 
 export default DownloadButton;
 
-const Button = styled.button`
+const Wrapper = styled.button`
   background-color: var(--color-primary);
   border-radius: 10px;
   border: none;

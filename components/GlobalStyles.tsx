@@ -2,7 +2,7 @@
 
 import { createGlobalStyle, css } from "styled-components";
 
-import { COLORS, WEIGHTS } from "@/constants/styles";
+import { COLORS, QUERIES, WEIGHTS } from "@/constants/styles";
 
 const styled = { createGlobalStyle };
 
@@ -42,6 +42,10 @@ const GlobalStyles = styled.createGlobalStyle`
     --weight-bold: ${WEIGHTS.bold};
 
     --button-color-size: 56px;
+
+    @media ${QUERIES.tabletAndSmaller} {
+      --button-color-size: 48px;
+    }
   }
 `;
 

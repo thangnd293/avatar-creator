@@ -351,152 +351,151 @@ export const DEFAULT_AVATAR: Record<string, number> = {
   Wrinkles: 0,
 };
 
+export const BACKGROUND_COLORS = [
+  "#E5E5E5",
+  "#AFAFAF",
+  "#4B4B4B",
+  "#F3E0FF",
+  "#DDB1F9",
+  "#9069CD",
+  "#ddf4ff",
+  "#84D7FF",
+  "#2561AC",
+  "#C6FDE7",
+  "#5AEAB1",
+  "#43B487",
+  "#D7FFB8",
+  "#B8F28B",
+  "#7DB84F",
+  "#FFF1A7",
+  "#FFCB80",
+  "#E5A259",
+  "#FFDFE0",
+  "#FFB2B2",
+  "#E56464",
+  "#FFD0F2",
+  "#F9A3D7",
+  "#D45DA6",
+].map((color, i) => ({
+  color,
+  state: "BackgroundColor",
+  value: i + 1,
+}));
+
 export const DEFAULT_BACKGROUND_COLOR = COLORS.white;
 
-export const TABS = [
+export const TABS: {
+  name: string;
+  colors?: {
+    name: string;
+    options: ButtonColorInfo[];
+  }[];
+  variants: {
+    name: string;
+    options: ButtonTypeInfo[];
+  };
+}[] = [
   {
     name: "Body",
-    state: "Body",
-  },
-  {
-    name: "Expression",
-    state: "Expression",
-  },
-  {
-    name: "Hair",
-    state: "MainHair",
-  },
-  {
-    name: "Facial Hair",
-    state: "FacialHair",
-  },
-  {
-    name: "Headwear",
-    state: "Headwear",
-  },
-  {
-    name: "Glasses",
-    state: "Glasses",
-  },
-  {
-    name: "Wrinkles",
-    state: "Wrinkles",
-  },
-  {
-    name: "Piercings",
-    state: "Piercings",
-  },
-  {
-    name: "Nose Piercings",
-    state: "Nose Piercings",
-  },
-];
-
-export const TAB_CONTENTS: Record<
-  string,
-  {
-    colors?: {
-      title: string;
-      options: ButtonColorInfo[];
-    }[];
-    types: {
-      title: string;
-      options: ButtonTypeInfo[];
-    };
-  }
-> = {
-  Body: {
     colors: [
       {
-        title: "Skin tone",
+        name: "Skin tone",
         options: SKIN_TONES,
       },
       {
-        title: "Clothing color",
+        name: "Clothing color",
         options: CLOTHING_COLORS,
       },
     ],
-    types: {
-      title: "Body type",
+    variants: {
+      name: "Body",
       options: BODY_TYPES,
     },
   },
-  Expression: {
+  {
+    name: "Expression",
     colors: [
       {
-        title: "Eye color",
+        name: "Eye color",
         options: EYE_COLORS,
       },
     ],
-    types: {
-      title: "Expression",
+    variants: {
+      name: "Expression",
       options: EXPRESSION_TYPES,
     },
   },
-  MainHair: {
+  {
+    name: "Hair",
     colors: [
       {
-        title: "Hair color",
+        name: "Hair color",
         options: HAIR_COLORS,
       },
     ],
-    types: {
-      title: "Hair style",
+    variants: {
+      name: "Hair",
       options: HAIR_TYPES,
     },
   },
-  Glasses: {
+  {
+    name: "Facial Hair",
     colors: [
       {
-        title: "Glasses color",
-        options: GLASS_COLORS,
-      },
-    ],
-    types: {
-      title: "Glasses style",
-      options: GLASS_TYPES,
-    },
-  },
-  Wrinkles: {
-    types: {
-      title: "Wrinkles",
-      options: WRINKLE_TYPES,
-    },
-  },
-  Piercings: {
-    types: {
-      title: "Piercings",
-      options: PIERCING_TYPES,
-    },
-  },
-  "Nose Piercings": {
-    types: {
-      title: "Nose Piercings",
-      options: NOSE_PIERCING_TYPES,
-    },
-  },
-  FacialHair: {
-    colors: [
-      {
-        title: "Facial hair color",
+        name: "Facial hair color",
         options: FACIAL_HAIR_COLORS,
       },
     ],
-    types: {
-      title: "Facial hair style",
+    variants: {
+      name: "Facial hair",
       options: FACIAL_HAIR_TYPES,
     },
   },
-  Headwear: {
+  {
+    name: "Headwear",
     colors: [
       {
-        title: "Headwear color",
+        name: "Headwear color",
         options: HEADWEAR_COLORS,
       },
     ],
-    types: {
-      title: "Headwear style",
+    variants: {
+      name: "Headwear",
       options: HEADWEAR_TYPES,
     },
   },
-};
+  {
+    name: "Glasses",
+    colors: [
+      {
+        name: "Glasses color",
+        options: GLASS_COLORS,
+      },
+    ],
+    variants: {
+      name: "Glasses",
+      options: GLASS_TYPES,
+    },
+  },
+  {
+    name: "Wrinkles",
+    variants: {
+      name: "Wrinkles",
+      options: WRINKLE_TYPES,
+    },
+  },
+  {
+    name: "Piercings",
+    variants: {
+      name: "Piercings",
+      options: PIERCING_TYPES,
+    },
+  },
+  {
+    name: "Nose Piercings",
+    variants: {
+      name: "Nose Piercings",
+      options: NOSE_PIERCING_TYPES,
+    },
+  },
+];

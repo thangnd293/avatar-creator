@@ -71,6 +71,10 @@ const ScrollAreaScrollbar = styled(RadixScrollArea.Scrollbar)`
     flex-direction: column;
     height: var(--scrollbar-size);
   }
+
+  @media ${QUERIES.tabletAndSmaller} {
+    display: none;
+  }
 `;
 
 const ScrollAreaThumb = styled(RadixScrollArea.Thumb)`
@@ -89,10 +93,6 @@ const ScrollAreaThumb = styled(RadixScrollArea.Thumb)`
     height: 100%;
     min-width: 44px;
     min-height: 44px;
-  }
-
-  @media ${QUERIES.tabletAndSmaller} {
-    display: none;
   }
 `;
 

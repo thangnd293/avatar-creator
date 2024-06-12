@@ -1,10 +1,10 @@
 import { Inter } from "next/font/google";
 import type { Metadata } from "next";
 
-import StyledComponentsRegistry from "@/lib/styledComponent";
 import { RIVE_FILE, RIVE_WASM_URL } from "@/constants/rive";
 
 import GlobalStyles from "@/components/GlobalStyles";
+import StyledComponentsRegistry from "@/components/StyledComponentsRegistry";
 import { getInitialBackground } from "@/helpers";
 
 const inter = Inter({ subsets: ["latin"], weight: ["400", "500", "700"] });

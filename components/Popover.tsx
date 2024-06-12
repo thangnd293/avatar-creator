@@ -31,7 +31,6 @@ PopoverContentWrapper.displayName = "PopoverContentWrapper";
 export { Popover, PopoverTrigger, PopoverContentWrapper };
 
 const PopoverContent = styled(RadixPopover.Content)`
-  border-radius: 4px;
   width: 260px;
   background-color: white;
   box-shadow: hsl(206, 22%, 7% / 35%) 0px 10px 38px -10px,
