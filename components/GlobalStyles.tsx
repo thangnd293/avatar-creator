@@ -41,10 +41,10 @@ const GlobalStyles = styled.createGlobalStyle`
     --weight-medium: ${WEIGHTS.medium};
     --weight-bold: ${WEIGHTS.bold};
 
-    --button-color-size: 56px;
+    --button-color-size: 48px;
 
     @media ${QUERIES.tabletAndSmaller} {
-      --button-color-size: 48px;
+      --button-color-size: 40px;
     }
   }
 `;

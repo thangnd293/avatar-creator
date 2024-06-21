@@ -1,5 +1,6 @@
 import { RiveAdvanced } from "@/lib/rive";
 import { RenderRequest } from "@/types";
+import { RiveFile } from "@rive-app/react-canvas-lite";
 import { useCallback, useLayoutEffect, useRef } from "react";
 
 interface RiveAdvancedArgs {
@@ -8,7 +9,7 @@ interface RiveAdvancedArgs {
     height: number;
   };
   initialStates: Record<string, number>;
-  riveFile: string;
+  riveFile: RiveFile;
   stateMachine: string;
 }
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { MACHINE_STATE, RIVE_FILE, RIVE_WASM_URL } from "@/constants/rive";
+import { useRef } from "react";
 import {
   Alignment,
   Fit,
@@ -15,8 +15,9 @@ import {
   useStateMachineInputs,
   useSyncStatesWithMachineInput,
 } from "@/hooks";
-import { useRef } from "react";
+import { MACHINE_STATE, RIVE_WASM_URL } from "@/constants/rive";
 import { useAvatarStates } from "./AvatarStatesProvider";
+import { useAvatarRiveFile } from "./AvatarRiveFileProvider";
 
 RuntimeLoader.setWasmUrl(RIVE_WASM_URL);
 
@@ -27,6 +28,8 @@ const layout = new Layout({
 
 function Avatar() {
   const { avatarStates } = useAvatarStates();
+  const riveFile = useAvatarRiveFile();
+
   const containerRef = useRef<HTMLDivElement>(null);
 
   const { width, height } = useResizeObserver({
@@ -34,10 +37,10 @@ function Avatar() {
   });
 
   const { rive, RiveComponent: MainAvatar } = useRive({
-    src: RIVE_FILE,
     stateMachines: MACHINE_STATE.Avatar,
     layout,
     autoplay: true,
+    riveFile,
   });
 
   const machineInputs = useStateMachineInputs(rive, MACHINE_STATE.Avatar);

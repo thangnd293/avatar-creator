@@ -332,7 +332,7 @@ const CLOTHING_COLORS = [
 }));
 
 export const DEFAULT_AVATAR: Record<string, number> = {
-  BackgroundColor: 0,
+  BackgroundColor: 19,
   Body: 1,
   ClothingColor: 7,
   Expression: 54,

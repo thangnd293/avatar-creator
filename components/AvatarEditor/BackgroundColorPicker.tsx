@@ -21,7 +21,7 @@ function BackgroundColorPicker() {
 
   const colorHex =
     BACKGROUND_COLORS.find((option) => option.value === color)?.color ??
-    "#FFFFFF";
+    BACKGROUND_COLORS[0].color;
 
   // Sync the background color with the color picker
   useEffect(() => {

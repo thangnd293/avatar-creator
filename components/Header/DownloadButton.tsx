@@ -4,13 +4,15 @@ import { DownloadCloud } from "react-feather";
 import styled from "styled-components";
 
 import { useAvatarStates } from "@/components/AvatarStatesProvider";
-import { MACHINE_STATE, RIVE_FILE } from "@/constants/rive";
+import { MACHINE_STATE } from "@/constants/rive";
 import { RiveAdvanced } from "@/lib/rive";
+import { useAvatarRiveFile } from "../AvatarRiveFileProvider";
 
 const IMAGE_SIZE = 512;
 
 function DownloadButton() {
   const { avatarStates } = useAvatarStates();
+  const riveFile = useAvatarRiveFile();
 
   const handleDownload = () => {
     const { requestRenderOnCanvas, cleanUp } = new RiveAdvanced(
@@ -19,7 +21,7 @@ function DownloadButton() {
         height: IMAGE_SIZE,
       },
       avatarStates,
-      RIVE_FILE,
+      riveFile,
       MACHINE_STATE.Avatar
     );
 

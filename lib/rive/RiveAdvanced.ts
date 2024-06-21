@@ -7,7 +7,7 @@ import {
 } from "@rive-app/canvas-advanced";
 
 import { CanvasDimensions, RenderRequest } from "@/types";
-import { RuntimeLoader } from "@rive-app/react-canvas-lite";
+import { RiveFile, RuntimeLoader } from "@rive-app/react-canvas-lite";
 
 export class RiveAdvanced {
   private cleanedUp: boolean;
@@ -15,7 +15,7 @@ export class RiveAdvanced {
   private rendererState: "initializing" | "drawing" | "idle";
   private currentRequest?: RenderRequest;
   private riveCanvas: HTMLCanvasElement;
-  private riveFile: string;
+  private riveFile: RiveFile;
   private stateMachineName: string;
   private initialStates: Record<string, number>;
   private baseStates: Record<string, number>;
@@ -48,7 +48,7 @@ export class RiveAdvanced {
   constructor(
     canvasDimensions: CanvasDimensions,
     initialStates: Record<string, number>,
-    riveFile: string,
+    riveFile: RiveFile,
     stateMachineName: string
   ) {
     this.cleanedUp = false;
@@ -148,17 +148,12 @@ export class RiveAdvanced {
         return;
       }
 
-      const response = await fetch(new Request(this.riveFile));
-      const arrayBuffer = await response.arrayBuffer();
-
       if (this.cleanedUp) {
         this.riveInstance.cleanup();
         return;
       }
 
-      this.fileInstance = await this.riveInstance.load(
-        new Uint8Array(arrayBuffer)
-      );
+      this.fileInstance = this.riveFile.getInstance();
 
       if (this.cleanedUp) {
         this.riveInstance.cleanup();

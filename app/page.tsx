@@ -1,5 +1,6 @@
 import Avatar from "@/components/Avatar";
 import AvatarEditor from "@/components/AvatarEditor";
+import AvatarRiveFileProvider from "@/components/AvatarRiveFileProvider";
 import AvatarStatesProvider from "@/components/AvatarStatesProvider";
 import Header from "@/components/Header";
 import { getInitialAvatar } from "@/helpers";
@@ -9,14 +10,16 @@ export default function Home() {
   const initialAvatar = getInitialAvatar();
 
   return (
-    <AvatarStatesProvider initialStates={initialAvatar}>
-      <Container>
-        <ContentWrapper>
-          <Header />
-          <Avatar />
-          <AvatarEditor />
-        </ContentWrapper>
-      </Container>
-    </AvatarStatesProvider>
+    <AvatarRiveFileProvider>
+      <AvatarStatesProvider initialStates={initialAvatar}>
+        <Container>
+          <ContentWrapper>
+            <Header />
+            <Avatar />
+            <AvatarEditor />
+          </ContentWrapper>
+        </Container>
+      </AvatarStatesProvider>
+    </AvatarRiveFileProvider>
   );
 }

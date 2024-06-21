@@ -5,23 +5,25 @@ import * as Tabs from "@radix-ui/react-tabs";
 import styled from "styled-components";
 
 import { useAvatarStates } from "@/components/AvatarStatesProvider";
+import Icon from "@/components/Icon";
 import ScrollArea from "@/components/ScrollArea";
 import { TABS } from "@/constants/avatar";
-import Icon from "@/components/Icon";
-import { MACHINE_STATE, RIVE_FILE } from "@/constants/rive";
+import { MACHINE_STATE } from "@/constants/rive";
 import { QUERIES } from "@/constants/styles";
 import { useRiveAdvanced } from "@/hooks";
+import { useAvatarRiveFile } from "@/components/AvatarRiveFileProvider";
+import VisuallyHidden from "@/components/VisuallyHidden";
 import AvatarOptionButton from "./AvatarOptionButton";
-import ButtonColor from "./ButtonColor";
 import BackgroundColorPicker from "./BackgroundColorPicker";
 
 function AvatarEditor() {
   const { avatarStates, changeAvatarState } = useAvatarStates();
+  const riveFile = useAvatarRiveFile();
 
   const { requestRenderOnCanvas, updateBaseState } = useRiveAdvanced({
     canvasDimensions,
     initialStates: avatarStates,
-    riveFile: RIVE_FILE,
+    riveFile,
     stateMachine: MACHINE_STATE.Buttons,
   });
 
@@ -55,19 +57,30 @@ function AvatarEditor() {
         {TABS.map(({ name, variants, colors }) => (
           <TabsContent key={name} value={name}>
             {colors &&
-              colors.map(({ name, options }) => (
+              colors.map(({ name, options }, index) => (
                 <Fragment key={name}>
                   <Title>{name}</Title>
                   <ColorWrapper>
                     {options.map((option) => (
                       <ButtonColor
                         key={option.value}
+                        style={{
+                          "--color": option.color,
+                          "--outline-color":
+                            option.value === avatarStates[option.state]
+                              ? "var(--color-primary)"
+                              : undefined,
+                        }}
                         color={option.color}
-                        active={option.value === avatarStates[option.state]}
+                        // active={option.value === avatarStates[option.state]}
                         onClick={() =>
                           onChangeAvatarState(option.state, option.value)
                         }
-                      />
+                      >
+                        <VisuallyHidden>
+                          {name} color {index}
+                        </VisuallyHidden>
+                      </ButtonColor>
                     ))}
                   </ColorWrapper>
                 </Fragment>
@@ -75,7 +88,7 @@ function AvatarEditor() {
 
             <Title>{variants.name}</Title>
             <VariantWrapper>
-              {variants.options.map((variant) => {
+              {variants.options.map((variant, index) => {
                 const { state, value } = variant;
 
                 return (
@@ -87,7 +100,11 @@ function AvatarEditor() {
                     currentStates={avatarStates}
                     renderFunction={requestRenderOnCanvas}
                     onClick={() => onChangeAvatarState(state, value)}
-                  />
+                  >
+                    <VisuallyHidden>
+                      {name} variant {index}
+                    </VisuallyHidden>
+                  </AvatarOptionButton>
                 );
               })}
             </VariantWrapper>
@@ -210,6 +227,10 @@ const VariantWrapper = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fill, 96px);
   gap: 16px;
+
+  @media ${QUERIES.tabletAndSmaller} {
+    justify-content: space-evenly;
+  }
 `;
 
 const Title = styled.h3`
@@ -234,5 +255,21 @@ const BackgroundColorPickerWrapper = styled.div`
 
   @media ${QUERIES.phoneAndSmaller} {
     right: 16px;
+  }
+`;
+
+const ButtonColor = styled.button`
+  width: var(--button-color-size);
+  height: var(--button-color-size);
+  border-radius: 12px;
+  background-color: var(--color);
+  border: none;
+  cursor: pointer;
+  outline: 2px inset var(--outline-color, transparent);
+  outline-offset: 2px;
+
+  &:hover,
+  &:focus {
+    outline-color: var(--color-secondary);
   }
 `;

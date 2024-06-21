@@ -23,6 +23,7 @@ function AvatarOptionButton({
   buttonTypeInfo,
   currentStates,
   renderFunction,
+  children,
   ...others
 }: AvatarOptionButtonProps) {
   const ref = useRef<any>();
@@ -52,6 +53,7 @@ function AvatarOptionButton({
         ref={ref}
         {...canvasDimensions}
       />
+      {children}
     </Button>
   );
 }
