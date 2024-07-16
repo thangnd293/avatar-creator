@@ -6,9 +6,7 @@ export function useSyncStatesWithMachineInput(
   machineInputs?: StateMachineInput[]
 ) {
   useEffect(() => {
-    if (!machineInputs) return;
-
-    machineInputs.forEach((input) => {
+    machineInputs?.forEach((input) => {
       if (states[input.name] !== undefined) input.value = states[input.name];
     });
   }, [machineInputs, states]);

@@ -9,7 +9,7 @@ interface RiveAdvancedArgs {
     height: number;
   };
   initialStates: Record<string, number>;
-  riveFile: RiveFile;
+  riveFile: RiveFile | null;
   stateMachine: string;
 }
 
@@ -48,6 +48,8 @@ const useInstanceRiveAdvanced = ({
   const ref = useRef<RiveAdvanced | null>(null);
 
   useLayoutEffect(() => {
+    if (!riveFile) return;
+
     ref.current = new RiveAdvanced(
       canvasDimensions,
       initialStates,
@@ -58,7 +60,7 @@ const useInstanceRiveAdvanced = ({
     return () => {
       ref.current?.cleanUp();
     };
-  }, []);
+  }, [riveFile]);
 
   return ref;
 };

@@ -62,7 +62,6 @@ export class RiveAdvanced {
     this.stateMachineName = stateMachineName;
     this.initialStates = initialStates;
     this.baseStates = {};
-
     // Add request render to queue
     this.requestRenderOnCanvas = (newRequest) => {
       this.pendingRequests.push(newRequest);
@@ -203,7 +202,7 @@ export class RiveAdvanced {
       if (this.rendererState === "idle") {
         if (this.currentRequest !== undefined) {
           this.drawOntoCanvas(this.currentRequest.canvas);
-          this.currentRequest.callback?.call(this.currentRequest);
+          this.currentRequest.callback?.();
           this.currentRequest = undefined;
         }
 

@@ -9,7 +9,6 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@next/bundle-analyzer": "^14.2.3",
     "@radix-ui/react-popover": "^1.0.7",
     "@radix-ui/react-scroll-area": "^1.0.5",
     "@radix-ui/react-tabs": "^1.0.4",
@@ -18,15 +17,14 @@
     "@rive-app/canvas-advanced": "^2.15.6",
     "@rive-app/react-canvas-lite": "^4.11.3",
     "js-cookie": "^3.0.5",
-    "lucide-react": "^0.394.0",
     "next": "14.2.3",
     "react": "^18",
     "react-dom": "^18",
-    "react-feather": "^2.0.10",
     "server-only": "^0.0.1",
     "styled-components": "^6.1.11"
   },
   "devDependencies": {
+    "@next/bundle-analyzer": "^14.2.5",
     "@types/js-cookie": "^3.0.6",
     "@types/node": "^20",
     "@types/react": "^18",

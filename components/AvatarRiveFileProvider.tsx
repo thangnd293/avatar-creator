@@ -1,12 +1,20 @@
 "use client";
 
 import { RiveFile, useRiveFile } from "@rive-app/react-canvas-lite";
-import { PropsWithChildren, createContext, useContext } from "react";
-import styled from "styled-components";
+import { PropsWithChildren, createContext, useContext, useMemo } from "react";
 
 import { RIVE_FILE } from "@/constants/rive";
 
-const AvatarRiveFileContext = createContext<RiveFile | null>(null);
+type AvatarRiveFileContext =
+  | {
+      riveFile: null;
+      isLoading: true;
+    }
+  | {
+      riveFile: RiveFile;
+      isLoading: false;
+    };
+const AvatarRiveFileContext = createContext<AvatarRiveFileContext | null>(null);
 
 export const useAvatarRiveFile = () => {
   const context = useContext(AvatarRiveFileContext);
@@ -30,23 +38,17 @@ export default function AvatarRiveFileProvider({
     throw new Error("Failed to load Rive file");
   }
 
-  if (status !== "success" || !riveFile) {
-    // TODO: Add a better loading state
-    return <LoadingWrapper>Loading...</LoadingWrapper>;
-  }
+  const value: AvatarRiveFileContext = useMemo(() => {
+    if (status === "loading" || !riveFile) {
+      return { riveFile: null, isLoading: true };
+    }
+
+    return { riveFile: riveFile, isLoading: false };
+  }, [status, riveFile]);
 
   return (
-    <AvatarRiveFileContext.Provider value={riveFile}>
+    <AvatarRiveFileContext.Provider value={value}>
       {children}
     </AvatarRiveFileContext.Provider>
   );
 }
-
-const LoadingWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: fixed;
-  inset: 0;
-  background-color: var(--color-white);
-`;

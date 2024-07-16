@@ -1,24 +1,25 @@
 "use client";
 
-import { Fragment } from "react";
 import * as Tabs from "@radix-ui/react-tabs";
+import { Fragment } from "react";
 import styled from "styled-components";
 
 import { useAvatarStates } from "@/components/AvatarStatesProvider";
-import Icon from "@/components/Icon";
 import ScrollArea from "@/components/ScrollArea";
+import VisuallyHidden from "@/components/VisuallyHidden";
 import { TABS } from "@/constants/avatar";
 import { MACHINE_STATE } from "@/constants/rive";
 import { QUERIES } from "@/constants/styles";
 import { useRiveAdvanced } from "@/hooks";
-import { useAvatarRiveFile } from "@/components/AvatarRiveFileProvider";
-import VisuallyHidden from "@/components/VisuallyHidden";
 import AvatarOptionButton from "./AvatarOptionButton";
 import BackgroundColorPicker from "./BackgroundColorPicker";
+import { useAvatarRiveFile } from "../AvatarRiveFileProvider";
+import Skeleton from "../Skeleton";
+import Icons from "@/components/Icons";
 
 function AvatarEditor() {
   const { avatarStates, changeAvatarState } = useAvatarStates();
-  const riveFile = useAvatarRiveFile();
+  const { isLoading, riveFile } = useAvatarRiveFile();
 
   const { requestRenderOnCanvas, updateBaseState } = useRiveAdvanced({
     canvasDimensions,
@@ -45,7 +46,7 @@ function AvatarEditor() {
           {TABS.map(({ name }) => (
             <TabsTrigger key={name} value={name}>
               <IconWrapper>
-                <Icon />
+                <Icons width={24} height={24} type={name} />
               </IconWrapper>
               <TabName>{name}</TabName>
             </TabsTrigger>
@@ -56,12 +57,17 @@ function AvatarEditor() {
       <ScrollArea>
         {TABS.map(({ name, variants, colors }) => (
           <TabsContent key={name} value={name}>
-            {colors &&
-              colors.map(({ name, options }, index) => (
-                <Fragment key={name}>
-                  <Title>{name}</Title>
-                  <ColorWrapper>
-                    {options.map((option) => (
+            {colors?.map(({ name, options }, index) => (
+              <Fragment key={name}>
+                <Title>{name}</Title>
+                <ColorWrapper>
+                  {isLoading &&
+                    options.map((option) => (
+                      <ButtonColorSkeleton key={option.value} />
+                    ))}
+
+                  {!isLoading &&
+                    options.map((option) => (
                       <ButtonColor
                         key={option.value}
                         style={{
@@ -72,41 +78,48 @@ function AvatarEditor() {
                               : undefined,
                         }}
                         color={option.color}
-                        // active={option.value === avatarStates[option.state]}
-                        onClick={() =>
-                          onChangeAvatarState(option.state, option.value)
-                        }
+                        onClick={onChangeAvatarState.bind(
+                          null,
+                          option.state,
+                          option.value
+                        )}
                       >
                         <VisuallyHidden>
                           {name} color {index}
                         </VisuallyHidden>
                       </ButtonColor>
                     ))}
-                  </ColorWrapper>
-                </Fragment>
-              ))}
+                </ColorWrapper>
+              </Fragment>
+            ))}
 
             <Title>{variants.name}</Title>
             <VariantWrapper>
-              {variants.options.map((variant, index) => {
-                const { state, value } = variant;
+              {isLoading &&
+                Array.from({ length: variants.options.length }, (_, index) => (
+                  <AvatarOptionButtonSkeleton key={index} />
+                ))}
 
-                return (
-                  <AvatarOptionButton
-                    key={value}
-                    canvasScale={canvasScale}
-                    canvasDimensions={canvasDimensions}
-                    buttonTypeInfo={variant}
-                    currentStates={avatarStates}
-                    renderFunction={requestRenderOnCanvas}
-                    onClick={() => onChangeAvatarState(state, value)}
-                  >
-                    <VisuallyHidden>
-                      {name} variant {index}
-                    </VisuallyHidden>
-                  </AvatarOptionButton>
-                );
-              })}
+              {!isLoading &&
+                variants.options.map((variant, index) => {
+                  const { state, value } = variant;
+
+                  return (
+                    <AvatarOptionButton
+                      key={value}
+                      canvasScale={canvasScale}
+                      canvasDimensions={canvasDimensions}
+                      buttonTypeInfo={variant}
+                      currentStates={avatarStates}
+                      renderFunction={requestRenderOnCanvas}
+                      onClick={() => onChangeAvatarState(state, value)}
+                    >
+                      <VisuallyHidden>
+                        {name} variant {index}
+                      </VisuallyHidden>
+                    </AvatarOptionButton>
+                  );
+                })}
             </VariantWrapper>
           </TabsContent>
         ))}
@@ -118,10 +131,11 @@ function AvatarEditor() {
 export default AvatarEditor;
 
 const canvasScale = 2;
+const buttonSize = 96;
 
 const canvasDimensions = {
-  width: 96 * canvasScale,
-  height: 96 * canvasScale,
+  width: buttonSize * canvasScale,
+  height: buttonSize * canvasScale,
 };
 
 const Container = styled(Tabs.Root)`
@@ -215,6 +229,7 @@ const TabName = styled.span`
 
 const TabsContent = styled(Tabs.Content)`
   outline: none;
+  padding: 0 4px;
 `;
 
 const ColorWrapper = styled.div`
@@ -270,6 +285,18 @@ const ButtonColor = styled.button`
 
   &:hover,
   &:focus {
-    outline-color: var(--color-secondary);
+    outline-color: var(--outline-color, var(--color-secondary));
   }
+`;
+
+const ButtonColorSkeleton = styled(Skeleton)`
+  width: var(--button-color-size);
+  height: var(--button-color-size);
+  border-radius: 12px;
+`;
+
+const AvatarOptionButtonSkeleton = styled(Skeleton)`
+  width: ${buttonSize}px;
+  height: ${buttonSize}px;
+  border-radius: 8px;
 `;

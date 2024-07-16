@@ -5,6 +5,7 @@ import {
   Alignment,
   Fit,
   Layout,
+  RiveFile,
   RuntimeLoader,
   useRive,
 } from "@rive-app/react-canvas-lite";
@@ -27,8 +28,7 @@ const layout = new Layout({
 });
 
 function Avatar() {
-  const { avatarStates } = useAvatarStates();
-  const riveFile = useAvatarRiveFile();
+  const { isLoading, riveFile } = useAvatarRiveFile();
 
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -36,7 +36,24 @@ function Avatar() {
     ref: containerRef,
   });
 
-  const { rive, RiveComponent: MainAvatar } = useRive({
+  return (
+    <Container ref={containerRef}>
+      <AvatarWrapper
+        style={{
+          "--dimension": Math.min(width, height) + "px",
+        }}
+      >
+        {!isLoading && <MainAvatar riveFile={riveFile} />}
+      </AvatarWrapper>
+    </Container>
+  );
+}
+
+export default Avatar;
+
+const MainAvatar = ({ riveFile }: { riveFile: RiveFile }) => {
+  const { avatarStates } = useAvatarStates();
+  const { rive, RiveComponent } = useRive({
     stateMachines: MACHINE_STATE.Avatar,
     layout,
     autoplay: true,
@@ -46,20 +63,8 @@ function Avatar() {
   const machineInputs = useStateMachineInputs(rive, MACHINE_STATE.Avatar);
   useSyncStatesWithMachineInput(avatarStates, machineInputs);
 
-  return (
-    <Container ref={containerRef}>
-      <AvatarWrapper
-        style={{
-          "--dimension": Math.min(width, height) + "px",
-        }}
-      >
-        <MainAvatar />
-      </AvatarWrapper>
-    </Container>
-  );
-}
-
-export default Avatar;
+  return <RiveComponent />;
+};
 
 const Container = styled.div`
   flex: 1;

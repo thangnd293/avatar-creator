@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef } from "react";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 
 import { ButtonTypeInfo, CanvasDimensions, RenderRequest } from "@/types";
 
@@ -44,7 +44,12 @@ function AvatarOptionButton({
   }, [currentStates, buttonTypeInfo.statesToOverride, renderFunction]);
 
   return (
-    <Button $active={isActive} {...others}>
+    <Button
+      {...others}
+      style={{
+        "--outline-color": isActive ? "var(--color-primary)" : undefined,
+      }}
+    >
       <canvas
         style={{
           width: canvasDimensions.width / canvasScale,
@@ -60,27 +65,17 @@ function AvatarOptionButton({
 
 export default AvatarOptionButton;
 
-const Button = styled.button<{ $active?: boolean }>`
+const Button = styled.button`
   display: flex;
   border: none;
   cursor: pointer;
   border-radius: 8px;
   background-color: var(--color-gray-100);
-  outline: 4px solid transparent;
-  outline-offset: -4px;
+  outline: 3px inset var(--outline-color, transparent);
+  outline-offset: -3px;
 
   &:hover,
   &:focus {
-    outline-color: var(--color-secondary);
+    outline-color: var(--outline-color, var(--color-secondary));
   }
-
-  ${({ $active }) =>
-    $active &&
-    css`
-      outline-color: var(--color-primary);
-
-      &:hover {
-        outline-color: var(--color-primary);
-      }
-    `}
 `;
